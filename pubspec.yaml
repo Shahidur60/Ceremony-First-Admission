@@ -1,0 +1,20 @@
+name: ceremony_chat
+description: Ceremony-first secure messenger (client-server)
+publish_to: none
+version: 0.2.0
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+  http: ^1.2.2
+  provider: ^6.1.2
+  uuid: ^4.4.2
+  qr_flutter: ^4.1.0
+  mobile_scanner: ^5.2.3
+
+flutter:
+  uses-material-design: true

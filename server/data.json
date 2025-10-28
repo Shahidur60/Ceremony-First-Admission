@@ -1,0 +1,442 @@
+{
+  "users": {
+    "u1": {
+      "userId": "u1",
+      "displayName": "Alice Morgan",
+      "phone": "+1-111-1000",
+      "identityKeyHex": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "fingerprint": "FP-A1B2C3D4E5",
+      "createdAt": "2025-10-09T10:00:00Z"
+    },
+    "u2": {
+      "userId": "u2",
+      "displayName": "Bob Singh",
+      "phone": "+1-222-2000",
+      "identityKeyHex": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "fingerprint": "FP-B2C3D4E5F6",
+      "createdAt": "2025-10-09T10:05:00Z"
+    },
+    "u3": {
+      "userId": "u3",
+      "displayName": "Charlie Kim",
+      "phone": "+1-333-3000",
+      "identityKeyHex": "cccccccccccccccccccccccccccccccc",
+      "fingerprint": "FP-C3D4E5F6G7",
+      "createdAt": "2025-10-09T10:10:00Z"
+    },
+    "u4": {
+      "userId": "u4",
+      "displayName": "Dana Lopez",
+      "phone": "+1-444-4000",
+      "identityKeyHex": "dddddddddddddddddddddddddddddddd",
+      "fingerprint": "FP-D4E5F6G7H8",
+      "createdAt": "2025-10-09T10:15:00Z"
+    },
+    "u5": {
+      "userId": "u5",
+      "displayName": "Ethan Zhao",
+      "phone": "+1-555-5000",
+      "identityKeyHex": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "fingerprint": "FP-E5F6G7H8I9",
+      "createdAt": "2025-10-09T10:20:00Z"
+    },
+    "u6": {
+      "userId": "u6",
+      "displayName": "Farah Patel",
+      "phone": "+1-666-6000",
+      "identityKeyHex": "ffffffffffffffffffffffffffffffff",
+      "fingerprint": "FP-F6G7H8I9J1",
+      "createdAt": "2025-10-09T10:25:00Z"
+    },
+    "u7": {
+      "userId": "u7",
+      "displayName": "George Clark",
+      "phone": "+1-777-7000",
+      "identityKeyHex": "11111111111111111111111111111111",
+      "fingerprint": "FP-G7H8I9J1K2",
+      "createdAt": "2025-10-09T10:30:00Z"
+    },
+    "u8": {
+      "userId": "u8",
+      "displayName": "Hannah Zhou",
+      "phone": "+1-888-8000",
+      "identityKeyHex": "22222222222222222222222222222222",
+      "fingerprint": "FP-H8I9J1K2L3",
+      "createdAt": "2025-10-09T10:35:00Z"
+    },
+    "u9": {
+      "userId": "u9",
+      "displayName": "Ian Parker",
+      "phone": "+1-999-9000",
+      "identityKeyHex": "33333333333333333333333333333333",
+      "fingerprint": "FP-I9J1K2L3M4",
+      "createdAt": "2025-10-09T10:40:00Z"
+    },
+    "u10": {
+      "userId": "u10",
+      "displayName": "Julia Rossi",
+      "phone": "+1-101-0101",
+      "identityKeyHex": "44444444444444444444444444444444",
+      "fingerprint": "FP-J1K2L3M4N5",
+      "createdAt": "2025-10-09T10:45:00Z"
+    },
+    "u11": {
+      "userId": "u11",
+      "displayName": "Khaled Hassan",
+      "phone": "+1-111-1101",
+      "identityKeyHex": "55555555555555555555555555555555",
+      "fingerprint": "FP-K2L3M4N5O6",
+      "createdAt": "2025-10-09T10:50:00Z"
+    },
+    "u12": {
+      "userId": "u12",
+      "displayName": "Lena Müller",
+      "phone": "+1-121-2101",
+      "identityKeyHex": "66666666666666666666666666666666",
+      "fingerprint": "FP-L3M4N5O6P7",
+      "createdAt": "2025-10-09T10:55:00Z"
+    },
+    "u13": {
+      "userId": "u13",
+      "displayName": "Marco Duarte",
+      "phone": "+1-131-3101",
+      "identityKeyHex": "77777777777777777777777777777777",
+      "fingerprint": "FP-M4N5O6P7Q8",
+      "createdAt": "2025-10-09T11:00:00Z"
+    },
+    "u14": {
+      "userId": "u14",
+      "displayName": "Nora Evans",
+      "phone": "+1-141-4101",
+      "identityKeyHex": "88888888888888888888888888888888",
+      "fingerprint": "FP-N5O6P7Q8R9",
+      "createdAt": "2025-10-09T11:05:00Z"
+    },
+    "u15": {
+      "userId": "u15",
+      "displayName": "Oscar Wright",
+      "phone": "+1-151-5101",
+      "identityKeyHex": "99999999999999999999999999999999",
+      "fingerprint": "FP-O6P7Q8R9S1",
+      "createdAt": "2025-10-09T11:10:00Z"
+    },
+    "u16": {
+      "userId": "u16",
+      "displayName": "Priya Shah",
+      "phone": "+1-161-6101",
+      "identityKeyHex": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "fingerprint": "FP-P7Q8R9S1T2",
+      "createdAt": "2025-10-09T11:15:00Z"
+    },
+    "u17": {
+      "userId": "u17",
+      "displayName": "Quentin Lee",
+      "phone": "+1-171-7101",
+      "identityKeyHex": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "fingerprint": "FP-Q8R9S1T2U3",
+      "createdAt": "2025-10-09T11:20:00Z"
+    },
+    "u18": {
+      "userId": "u18",
+      "displayName": "Rachel Green",
+      "phone": "+1-181-8101",
+      "identityKeyHex": "cccccccccccccccccccccccccccccccc",
+      "fingerprint": "FP-R9S1T2U3V4",
+      "createdAt": "2025-10-09T11:25:00Z"
+    },
+    "u19": {
+      "userId": "u19",
+      "displayName": "Sam Carter",
+      "phone": "+1-191-9101",
+      "identityKeyHex": "dddddddddddddddddddddddddddddddd",
+      "fingerprint": "FP-S1T2U3V4W5",
+      "createdAt": "2025-10-09T11:30:00Z"
+    },
+    "u20": {
+      "userId": "u20",
+      "displayName": "Tina Brooks",
+      "phone": "+1-202-0202",
+      "identityKeyHex": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "fingerprint": "FP-T2U3V4W5X6",
+      "createdAt": "2025-10-09T11:35:00Z"
+    },
+    "8996d537-d946-4f45-9681-cfd87f754790": {
+      "userId": "8996d537-d946-4f45-9681-cfd87f754790",
+      "displayName": "Alice Morgan",
+      "phone": "+1-555-5000",
+      "identityKeyHex": "0fa90a102d6a4176ac12d4d2da542336",
+      "fingerprint": "0FA90A102D6A",
+      "createdAt": "2025-10-15T19:25:30.954Z"
+    }
+  },
+  "contacts": {
+    "u1": [
+      {
+        "contactId": "c1",
+        "name": "Bob Singh",
+        "phone": "+1-222-2000",
+        "linkedUserId": "u2",
+        "state": "verified",
+        "attestation": "qr verified"
+      },
+      {
+        "contactId": "c2",
+        "name": "Charlie Kim",
+        "phone": "+1-333-3000",
+        "linkedUserId": "u3",
+        "state": "verified",
+        "attestation": "voice verified"
+      },
+      {
+        "contactId": "c3",
+        "name": "Rachel Green",
+        "phone": "+1-181-8101",
+        "linkedUserId": "u18",
+        "state": "verified",
+        "attestation": "qr verified"
+      },
+      {
+        "contactId": "34749088-afaf-450d-8859-b5d5e4147eb9",
+        "name": "Sonjoy Kumar",
+        "phone": "+1-555-5000",
+        "linkedUserId": null,
+        "state": "unverified",
+        "attestation": "added",
+        "createdAt": "2025-10-15T19:24:58.642Z"
+      }
+    ],
+    "u2": [
+      {
+        "contactId": "c4",
+        "name": "Alice Morgan",
+        "phone": "+1-111-1000",
+        "linkedUserId": "u1",
+        "state": "verified",
+        "attestation": "qr verified"
+      },
+      {
+        "contactId": "c5",
+        "name": "Priya Shah",
+        "phone": "+1-161-6101",
+        "linkedUserId": "u16",
+        "state": "verified",
+        "attestation": "qr verified"
+      },
+      {
+        "contactId": "c6",
+        "name": "Ethan Zhao",
+        "phone": "+1-555-5000",
+        "linkedUserId": "u5",
+        "state": "unverified"
+      }
+    ],
+    "u3": [
+      {
+        "contactId": "c7",
+        "name": "Alice Morgan",
+        "phone": "+1-111-1000",
+        "linkedUserId": "u1",
+        "state": "verified"
+      },
+      {
+        "contactId": "c8",
+        "name": "Bob Singh",
+        "phone": "+1-222-2000",
+        "linkedUserId": "u2",
+        "state": "verified"
+      }
+    ]
+  },
+  "groups": {
+    "g1": {
+      "groupId": "g1",
+      "name": "Research Team Alpha",
+      "ownerId": "u1",
+      "endorsementsNeeded": 1,
+      "members": [
+        {
+          "userId": "u1",
+          "role": "admin",
+          "verified": true
+        },
+        {
+          "userId": "u2",
+          "role": "member",
+          "verified": true
+        },
+        {
+          "userId": "u3",
+          "role": "member",
+          "verified": true
+        },
+        {
+          "userId": "u6",
+          "role": "member",
+          "verified": true
+        },
+        {
+          "userId": "u9",
+          "role": "member",
+          "verified": true
+        },
+        {
+          "userId": "u10",
+          "role": "member",
+          "verified": true
+        },
+        {
+          "userId": "u18",
+          "role": "member",
+          "verified": false
+        }
+      ],
+      "endorsements": [],
+      "createdAt": "2025-10-15T10:00:00Z"
+    },
+    "g2": {
+      "groupId": "g2",
+      "name": "Secure UX Study Beta",
+      "ownerId": "u2",
+      "endorsementsNeeded": 2,
+      "members": [
+        {
+          "userId": "u2",
+          "role": "admin",
+          "verified": true
+        },
+        {
+          "userId": "u1",
+          "role": "member",
+          "verified": true
+        },
+        {
+          "userId": "u3",
+          "role": "member",
+          "verified": true
+        },
+        {
+          "userId": "u5",
+          "role": "member",
+          "verified": true
+        },
+        {
+          "userId": "u12",
+          "role": "member",
+          "verified": true
+        },
+        {
+          "userId": "u16",
+          "role": "member",
+          "verified": false
+        },
+        {
+          "userId": "u17",
+          "role": "member",
+          "verified": false
+        }
+      ],
+      "endorsements": [
+        {
+          "endorser": "u3",
+          "endorsed": "u16",
+          "timestamp": "2025-10-15T10:30:00Z"
+        }
+      ],
+      "createdAt": "2025-10-15T10:20:00Z"
+    }
+  },
+  "messages": {
+    "g1": [
+      {
+        "id": "m1",
+        "groupId": "g1",
+        "senderUserId": "system",
+        "senderName": "System",
+        "text": "@Bob Singh added by @Alice Morgan.",
+        "timestamp": "2025-10-15T10:01:00Z"
+      },
+      {
+        "id": "m2",
+        "groupId": "g1",
+        "senderUserId": "system",
+        "senderName": "System",
+        "text": "@Charlie Kim added by @Alice Morgan.",
+        "timestamp": "2025-10-15T10:02:00Z"
+      },
+      {
+        "id": "m3",
+        "groupId": "g1",
+        "senderUserId": "u1",
+        "senderName": "Alice Morgan",
+        "text": "Morning everyone, let's finalize experiment day.",
+        "timestamp": "2025-10-15T10:03:00Z"
+      },
+      {
+        "id": "m4",
+        "groupId": "g1",
+        "senderUserId": "u2",
+        "senderName": "Bob Singh",
+        "text": "Data looks solid, I'm cleaning up scripts.",
+        "timestamp": "2025-10-15T10:04:00Z"
+      },
+      {
+        "id": "m5",
+        "groupId": "g1",
+        "senderUserId": "u3",
+        "senderName": "Charlie Kim",
+        "text": "I’ll prepare the onboarding slides.",
+        "timestamp": "2025-10-15T10:05:00Z"
+      },
+      {
+        "id": "m6",
+        "groupId": "g1",
+        "senderUserId": "u9",
+        "senderName": "Ian Parker",
+        "text": "Shared the report folder link.",
+        "timestamp": "2025-10-15T10:06:00Z"
+      },
+      {
+        "id": "m7",
+        "groupId": "g1",
+        "senderUserId": "u10",
+        "senderName": "Julia Rossi",
+        "text": "Confirmed! Meeting at 3 PM CST.",
+        "timestamp": "2025-10-15T10:07:00Z"
+      },
+      {
+        "id": "m8",
+        "groupId": "g1",
+        "senderUserId": "system",
+        "senderName": "System",
+        "text": "@Rachel Green invited by @Alice Morgan. Needs 1 endorsement before viewing history.",
+        "timestamp": "2025-10-15T10:08:00Z"
+      }
+    ],
+    "g2": [
+      {
+        "id": "m5",
+        "groupId": "g2",
+        "senderUserId": "system",
+        "senderName": "System",
+        "text": "@Priya Shah invited by @Bob Singh. Needs 2 endorsements.",
+        "timestamp": "2025-10-15T10:25:00Z"
+      },
+      {
+        "id": "m6",
+        "groupId": "g2",
+        "senderUserId": "system",
+        "senderName": "System",
+        "text": "Endorsement 1/2 for @Priya Shah.",
+        "timestamp": "2025-10-15T10:26:00Z"
+      },
+      {
+        "id": "m7",
+        "groupId": "g2",
+        "senderUserId": "u2",
+        "senderName": "Bob Singh",
+        "text": "UX trial flow updated for new participants.",
+        "timestamp": "2025-10-15T10:27:00Z"
+      }
+    ]
+  }
+}
