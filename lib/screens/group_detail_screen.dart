@@ -18,6 +18,9 @@ class _GroupDetailScreenState extends State<GroupDetailScreen> {
   List<ChatMessage> messages = [];
   final _textCtrl = TextEditingController();
 
+  // cache of all users to resolve names
+  Map<String, UserProfile> userMap = {};
+
   @override
   void initState() {
     super.initState();
@@ -30,14 +33,19 @@ class _GroupDetailScreenState extends State<GroupDetailScreen> {
     try {
       final g = await app.api.getGroup(group.groupId);
       final ms = await app.api.listMessages(group.groupId, app.me!.userId);
+      final users = await app.api.listUsers();
+
       setState(() {
         group = g;
         messages = ms;
+        userMap = {for (var u in users) u.userId: u};
         loading = false;
       });
     } catch (e) {
       setState(() => loading = false);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e')),
+      );
     }
   }
 
@@ -50,7 +58,9 @@ class _GroupDetailScreenState extends State<GroupDetailScreen> {
       await app.api.sendMessage(group.groupId, app.me!.userId, text);
       await _reloadAll();
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Send failed: $e')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Send failed: $e')),
+      );
     }
   }
 
@@ -59,7 +69,10 @@ class _GroupDetailScreenState extends State<GroupDetailScreen> {
     final verified = await app.api.listVerifiedOnly(app.me!.userId);
     if (verified.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('No verified contacts. Verify a contact first in Contacts tab.')),
+        const SnackBar(
+          content:
+              Text('No verified contacts. Verify a contact first in Contacts tab.'),
+        ),
       );
       return;
     }
@@ -91,8 +104,14 @@ class _GroupDetailScreenState extends State<GroupDetailScreen> {
           ),
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text("Cancel")),
-          FilledButton(onPressed: () => Navigator.pop(context, pick), child: const Text("Add")),
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("Cancel"),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, pick),
+            child: const Text("Add"),
+          ),
         ],
       ),
     ).then((v) => pick = v);
@@ -100,19 +119,33 @@ class _GroupDetailScreenState extends State<GroupDetailScreen> {
     if (pick == null) return;
 
     try {
-      await app.api.inviteToGroup(group.groupId, app.me!.userId, pick!.linkedUserId!);
+      await app.api.inviteToGroup(
+        group.groupId,
+        app.me!.userId,
+        pick!.linkedUserId!,
+      );
       await _reloadAll();
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Invited ${pick!.name}. ${group.endorsementsNeeded ?? 1} endorsement(s) may be required.")),
+        SnackBar(
+          content: Text(
+            "Invited ${pick!.name}. ${group.endorsementsNeeded ?? 1} endorsement(s) may be required.",
+          ),
+        ),
       );
     } catch (e) {
       final msg = e.toString();
       if (msg.contains('verify_first')) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("This contact isn’t verified. Go to Contacts and complete verification.")),
+          const SnackBar(
+            content: Text(
+              "This contact isn’t verified. Go to Contacts and complete verification.",
+            ),
+          ),
         );
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Invite failed: $e")));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Invite failed: $e")),
+        );
       }
     }
   }
@@ -123,14 +156,156 @@ class _GroupDetailScreenState extends State<GroupDetailScreen> {
       await app.api.endorse(group.groupId, app.me!.userId, joiningUserId);
       await _reloadAll();
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Endorse failed: $e")));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Endorse failed: $e")),
+      );
     }
+  }
+
+  Future<void> _editPolicy() async {
+    final meId = context.read<AppState>().me!.userId;
+    final isAdmin = group.members.any(
+      (m) => m.userId == meId && m.role == 'admin',
+    );
+    if (!isAdmin) return;
+
+    final currentT = group.endorsementsNeeded ?? 1;
+    final currentEndorsers = Set<String>.from(
+      group.endorsers.isNotEmpty
+          ? group.endorsers
+          : group.members.where((m) => m.role == 'admin').map((m) => m.userId),
+    );
+
+    final tCtrl = TextEditingController(text: currentT.toString());
+    final members = group.members;
+
+    await showDialog(
+      context: context,
+      builder: (_) => StatefulBuilder(
+        builder: (context, setStateDialog) {
+          return AlertDialog(
+            title: const Text("Group admission policy"),
+            content: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "1. Endorsement threshold (t)",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 4),
+                  TextField(
+                    controller: tCtrl,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      labelText: "Endorsements needed",
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  const Text(
+                    "2. Who can endorse?",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 4),
+                  const Text(
+                    "Only selected members will be allowed to endorse new joiners.",
+                  ),
+                  const SizedBox(height: 8),
+                  SizedBox(
+                    height: 240,
+                    width: 360,
+                    child: ListView.builder(
+                      itemCount: members.length,
+                      itemBuilder: (_, i) {
+                        final m = members[i];
+                        final user = userMap[m.userId];
+                        final name = user?.displayName ?? m.userId;
+                        final isSelected = currentEndorsers.contains(m.userId);
+                        return CheckboxListTile(
+                          title: Text(name),
+                          subtitle: Text(m.role),
+                          value: isSelected,
+                          onChanged: (val) {
+                            setStateDialog(() {
+                              if (val == true) {
+                                currentEndorsers.add(m.userId);
+                              } else {
+                                currentEndorsers.remove(m.userId);
+                              }
+                            });
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                  if (currentEndorsers.isEmpty)
+                    const Padding(
+                      padding: EdgeInsets.only(top: 4),
+                      child: Text(
+                        "At least one endorser is required.",
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text("Cancel"),
+              ),
+              FilledButton(
+                onPressed: currentEndorsers.isEmpty
+                    ? null
+                    : () async {
+                        final tVal = int.tryParse(tCtrl.text.trim());
+                        if (tVal == null || tVal <= 0) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                "Please enter a valid threshold (t \u2265 1).",
+                              ),
+                            ),
+                          );
+                          return;
+                        }
+
+                        final app = context.read<AppState>();
+                        try {
+                          final updated = await app.api.updateGroupPolicy(
+                            groupId: group.groupId,
+                            callerUserId: meId,
+                            endorsementsNeeded: tVal,
+                            endorsers: currentEndorsers.toList(),
+                          );
+                          if (!mounted) return;
+                          setState(() {
+                            group = updated;
+                          });
+                          Navigator.pop(context);
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("Update failed: $e")),
+                          );
+                        }
+                      },
+                child: const Text("Save"),
+              ),
+            ],
+          );
+        },
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final me = context.read<AppState>().me!;
     final pending = group.members.where((m) => !m.verified).toList();
+    final isAdmin = group.members.any(
+      (m) => m.userId == me.userId && m.role == 'admin',
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -140,7 +315,13 @@ class _GroupDetailScreenState extends State<GroupDetailScreen> {
             icon: const Icon(Icons.person_add),
             tooltip: 'Add member (verified only)',
             onPressed: _addMember,
-          )
+          ),
+          if (isAdmin)
+            IconButton(
+              icon: const Icon(Icons.admin_panel_settings),
+              tooltip: 'Group admission policy',
+              onPressed: _editPolicy,
+            ),
         ],
       ),
       body: Column(
@@ -150,7 +331,9 @@ class _GroupDetailScreenState extends State<GroupDetailScreen> {
               width: double.infinity,
               color: Colors.amber.withOpacity(.2),
               padding: const EdgeInsets.all(8),
-              child: Text("This group requires ${group.endorsementsNeeded} endorsements for new members."),
+              child: Text(
+                "This group requires ${group.endorsementsNeeded} endorsements for new members.",
+              ),
             ),
 
           if (pending.isNotEmpty)
@@ -161,16 +344,27 @@ class _GroupDetailScreenState extends State<GroupDetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text("Pending members:", style: TextStyle(fontWeight: FontWeight.bold)),
+                  const Text(
+                    "Pending members:",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   const SizedBox(height: 6),
                   ...pending.map((p) {
-                    final have = group.endorsements.where((e) => e.endorsed == p.userId).length;
+                    final have = group.endorsements
+                        .where((e) => e.endorsed == p.userId)
+                        .length;
                     final need = group.endorsementsNeeded ?? 1;
-                    final canEndorse = group.members.any((m) => m.userId == me.userId);
+                    final canEndorse =
+                        group.endorsers.contains(me.userId);
+
+                    final user = userMap[p.userId];
+                    final name = user?.displayName ?? p.userId;
 
                     return Row(
                       children: [
-                        Expanded(child: Text("• ${p.userId}  ($have/$need)")),
+                        Expanded(
+                          child: Text("• $name  ($have/$need)"),
+                        ),
                         if (canEndorse)
                           TextButton(
                             onPressed: () => _endorse(p.userId),
@@ -195,15 +389,26 @@ class _GroupDetailScreenState extends State<GroupDetailScreen> {
                           final isMine = m.senderUserId == me.userId;
                           final isSystem = m.isSystem;
                           return Align(
-                            alignment: isSystem ? Alignment.center : (isMine ? Alignment.centerRight : Alignment.centerLeft),
+                            alignment: isSystem
+                                ? Alignment.center
+                                : (isMine
+                                    ? Alignment.centerRight
+                                    : Alignment.centerLeft),
                             child: Container(
-                              margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                              margin: const EdgeInsets.symmetric(
+                                  vertical: 4, horizontal: 8),
                               padding: const EdgeInsets.all(10),
                               decoration: BoxDecoration(
-                                color: isSystem ? Colors.grey[300] : (isMine ? Colors.blue[200] : Colors.grey[200]),
+                                color: isSystem
+                                    ? Colors.grey[300]
+                                    : (isMine
+                                        ? Colors.blue[200]
+                                        : Colors.grey[200]),
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              child: Text(isSystem ? m.text : "${m.senderName}: ${m.text}"),
+                              child: Text(
+                                isSystem ? m.text : "${m.senderName}: ${m.text}",
+                              ),
                             ),
                           );
                         },

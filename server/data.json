@@ -167,6 +167,54 @@
       "identityKeyHex": "0fa90a102d6a4176ac12d4d2da542336",
       "fingerprint": "0FA90A102D6A",
       "createdAt": "2025-10-15T19:25:30.954Z"
+    },
+    "4868ad49-f935-42b6-8cf9-e724cafcb4a4": {
+      "userId": "4868ad49-f935-42b6-8cf9-e724cafcb4a4",
+      "displayName": "asif",
+      "phone": "222-222-2222",
+      "identityKeyHex": "268948c1af5c464bbe0aa5287d53c2d8",
+      "fingerprint": "268948C1AF5C",
+      "createdAt": "2025-12-10T20:45:26.180Z"
+    },
+    "fd1134fe-c1b9-485b-b73c-1dd9823ae5cc": {
+      "userId": "fd1134fe-c1b9-485b-b73c-1dd9823ae5cc",
+      "displayName": "Asif",
+      "phone": "222-222-2222",
+      "identityKeyHex": "6d669645ce1d4b49a7332144e73379b0",
+      "fingerprint": "6D669645CE1D",
+      "createdAt": "2025-12-10T20:49:08.178Z"
+    },
+    "1d7864bd-0c2d-448d-b8cd-d5e398534ecf": {
+      "userId": "1d7864bd-0c2d-448d-b8cd-d5e398534ecf",
+      "displayName": "Hemel",
+      "phone": "111-112-1133",
+      "identityKeyHex": "19eba77350b245618195d991e862c7bd",
+      "fingerprint": "19EBA77350B2",
+      "createdAt": "2025-12-10T20:56:47.987Z"
+    },
+    "b6b6e219-367c-423c-b53c-50576f6bd0ae": {
+      "userId": "b6b6e219-367c-423c-b53c-50576f6bd0ae",
+      "displayName": "Hemel",
+      "phone": "111-111-1111",
+      "identityKeyHex": "79de2a11fa484348ae6b89f62804de3e",
+      "fingerprint": "79DE2A11FA48",
+      "createdAt": "2025-12-10T20:58:17.992Z"
+    },
+    "8a23e62f-7655-46f1-bd29-aac6505375c4": {
+      "userId": "8a23e62f-7655-46f1-bd29-aac6505375c4",
+      "displayName": "sonjoy",
+      "phone": "111222333",
+      "identityKeyHex": "1b87cb4875f74cd08262669d42c016cd",
+      "fingerprint": "1B87CB4875F7",
+      "createdAt": "2026-03-03T21:07:07.629Z"
+    },
+    "e4ced1aa-b435-4a5c-962b-7615b9b51d02": {
+      "userId": "e4ced1aa-b435-4a5c-962b-7615b9b51d02",
+      "displayName": "hemel",
+      "phone": "2543276044",
+      "identityKeyHex": "85f99d31f54245ae8638a3340e44b9f9",
+      "fingerprint": "85F99D31F542",
+      "createdAt": "2026-03-03T21:09:47.784Z"
     }
   },
   "contacts": {
@@ -244,6 +292,68 @@
         "phone": "+1-222-2000",
         "linkedUserId": "u2",
         "state": "verified"
+      }
+    ],
+    "4868ad49-f935-42b6-8cf9-e724cafcb4a4": [
+      {
+        "contactId": "877f3faa-7072-45db-adb3-376a347cddb7",
+        "name": "Hemel",
+        "phone": "111-112-1133",
+        "linkedUserId": null,
+        "state": "unverified",
+        "attestation": "added",
+        "createdAt": "2025-12-10T20:46:24.133Z"
+      },
+      {
+        "contactId": "b88aa2a5-24fa-4117-9c62-20e09483f4bd",
+        "name": "Ammu",
+        "phone": "+8801721187715",
+        "linkedUserId": null,
+        "state": "unverified",
+        "attestation": "added",
+        "createdAt": "2025-12-10T20:55:11.717Z"
+      }
+    ],
+    "fd1134fe-c1b9-485b-b73c-1dd9823ae5cc": [
+      {
+        "contactId": "f4f6479c-d816-4563-b577-3e6b444f0f4b",
+        "name": "Hemel",
+        "phone": "111-111-1111",
+        "linkedUserId": "b6b6e219-367c-423c-b53c-50576f6bd0ae",
+        "state": "verified",
+        "attestation": "sas verified",
+        "createdAt": "2025-12-10T20:57:55.921Z"
+      }
+    ],
+    "8a23e62f-7655-46f1-bd29-aac6505375c4": [
+      {
+        "contactId": "8580dfeb-3846-4996-a1fb-3020a51b1303",
+        "name": "hemel",
+        "phone": "2543276044",
+        "linkedUserId": null,
+        "state": "unverified",
+        "attestation": "added",
+        "createdAt": "2026-03-03T21:07:48.968Z"
+      }
+    ],
+    "e4ced1aa-b435-4a5c-962b-7615b9b51d02": [
+      {
+        "contactId": "56009125-4945-4789-ae72-3018bf746f5c",
+        "name": "sonjoy",
+        "phone": "111222333",
+        "linkedUserId": "8a23e62f-7655-46f1-bd29-aac6505375c4",
+        "state": "verified",
+        "attestation": "sas verified",
+        "createdAt": "2026-03-03T21:10:14.572Z"
+      },
+      {
+        "contactId": "6622631f-09a2-4ffc-bd87-e490d5c63d81",
+        "name": "Hemel",
+        "phone": "1111111111",
+        "linkedUserId": null,
+        "state": "unverified",
+        "attestation": "added",
+        "createdAt": "2026-03-03T21:11:11.814Z"
       }
     ]
   },
@@ -343,6 +453,52 @@
         }
       ],
       "createdAt": "2025-10-15T10:20:00Z"
+    },
+    "a958bfec-47fb-40c6-b3e0-7d88f44d489d": {
+      "groupId": "a958bfec-47fb-40c6-b3e0-7d88f44d489d",
+      "name": "Research WG",
+      "ownerId": "fd1134fe-c1b9-485b-b73c-1dd9823ae5cc",
+      "endorsementsNeeded": 2,
+      "members": [
+        {
+          "userId": "fd1134fe-c1b9-485b-b73c-1dd9823ae5cc",
+          "role": "admin",
+          "verified": true
+        },
+        {
+          "userId": "b6b6e219-367c-423c-b53c-50576f6bd0ae",
+          "role": "member",
+          "verified": false
+        }
+      ],
+      "endorsements": [],
+      "endorsers": [
+        "fd1134fe-c1b9-485b-b73c-1dd9823ae5cc"
+      ],
+      "createdAt": "2025-12-10T20:59:29.121Z"
+    },
+    "525339d0-2a0d-40b4-bf4b-fce69da99b50": {
+      "groupId": "525339d0-2a0d-40b4-bf4b-fce69da99b50",
+      "name": "iftar",
+      "ownerId": "e4ced1aa-b435-4a5c-962b-7615b9b51d02",
+      "endorsementsNeeded": 1,
+      "members": [
+        {
+          "userId": "e4ced1aa-b435-4a5c-962b-7615b9b51d02",
+          "role": "admin",
+          "verified": true
+        },
+        {
+          "userId": "8a23e62f-7655-46f1-bd29-aac6505375c4",
+          "role": "member",
+          "verified": true
+        }
+      ],
+      "endorsements": [],
+      "endorsers": [
+        "e4ced1aa-b435-4a5c-962b-7615b9b51d02"
+      ],
+      "createdAt": "2026-03-03T21:11:28.351Z"
     }
   },
   "messages": {
@@ -436,6 +592,42 @@
         "senderName": "Bob Singh",
         "text": "UX trial flow updated for new participants.",
         "timestamp": "2025-10-15T10:27:00Z"
+      }
+    ],
+    "a958bfec-47fb-40c6-b3e0-7d88f44d489d": [
+      {
+        "id": "e6098b27-7a78-4d0e-8647-5591991aed5c",
+        "groupId": "a958bfec-47fb-40c6-b3e0-7d88f44d489d",
+        "senderUserId": "system",
+        "senderName": "System",
+        "text": "Group \"Research WG\" created.",
+        "timestamp": "2025-12-10T20:59:29.122Z"
+      },
+      {
+        "id": "7af8fcee-5a6a-42a6-b568-1adae33d9493",
+        "groupId": "a958bfec-47fb-40c6-b3e0-7d88f44d489d",
+        "senderUserId": "system",
+        "senderName": "System",
+        "text": "@Hemel invited by @Asif. Needs 2 endorsements.",
+        "timestamp": "2025-12-10T20:59:37.803Z"
+      }
+    ],
+    "525339d0-2a0d-40b4-bf4b-fce69da99b50": [
+      {
+        "id": "81385ce9-4ec2-452b-be0b-4eef9038fbd3",
+        "groupId": "525339d0-2a0d-40b4-bf4b-fce69da99b50",
+        "senderUserId": "system",
+        "senderName": "System",
+        "text": "Group \"iftar\" created.",
+        "timestamp": "2026-03-03T21:11:28.352Z"
+      },
+      {
+        "id": "a1ba38be-7518-4092-894b-14bb6668411e",
+        "groupId": "525339d0-2a0d-40b4-bf4b-fce69da99b50",
+        "senderUserId": "system",
+        "senderName": "System",
+        "text": "@sonjoy added by @hemel.",
+        "timestamp": "2026-03-03T21:11:41.796Z"
       }
     ]
   }

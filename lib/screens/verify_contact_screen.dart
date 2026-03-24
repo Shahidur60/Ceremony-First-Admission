@@ -1,5 +1,6 @@
-import 'dart:math';
+import 'dart:convert';
 
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:provider/provider.dart';
@@ -24,20 +25,23 @@ class VerifyContactScreen extends StatefulWidget {
 class _VerifyContactScreenState extends State<VerifyContactScreen> {
   bool verified = false;
   String? status;
-  late String localSas;
-  late String peerSas; // simulated for demo
+  late String sas;
 
   @override
   void initState() {
     super.initState();
-    // Generate a 6-digit SAS for local verification (simulated)
-    localSas = _generateSas();
-    peerSas = _generateSas(); // In real life this would come from peer
+    sas = _computeSas(widget.me.userId, widget.peer.userId);
   }
 
-  String _generateSas() {
-    final r = Random();
-    return List.generate(6, (_) => r.nextInt(10)).join();
+  String _computeSas(String a, String b) {
+    final pair = [a, b]..sort();
+    final input = utf8.encode('${pair[0]}:${pair[1]}');
+    final digest = sha256.convert(input).toString();
+    final digits = digest.replaceAll(RegExp(r'[^0-9]'), '');
+    final six = (digits.length >= 6
+        ? digits.substring(0, 6)
+        : digits.padRight(6, '0'));
+    return six;
   }
 
   @override
@@ -50,25 +54,23 @@ class _VerifyContactScreenState extends State<VerifyContactScreen> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            // --- Contact info ---
             Card(
               child: ListTile(
                 leading: const Icon(Icons.person),
                 title: Text(widget.peer.displayName),
                 subtitle: Text(
-                    "fp: ${widget.peer.fingerprint.substring(0, 12)}… • ${widget.peer.phone}"),
+                  "fp: ${widget.peer.fingerprint.substring(0, 12)}… • ${widget.peer.phone}",
+                ),
               ),
             ),
             const SizedBox(height: 12),
 
-            // --- Status text ---
             Text(
               status ?? "Select a verification method:",
               style: Theme.of(context).textTheme.bodyLarge,
             ),
             const SizedBox(height: 20),
 
-            // --- QR Scan Verification ---
             if (!verified)
               FilledButton.icon(
                 icon: const Icon(Icons.qr_code_scanner),
@@ -79,7 +81,8 @@ class _VerifyContactScreenState extends State<VerifyContactScreen> {
                     MaterialPageRoute(builder: (_) => const _ScanPage()),
                   );
 
-                  if (result is Map && result['userId'] == widget.peer.userId) {
+                  if (result is Map &&
+                      result['userId'] == widget.peer.userId) {
                     final contactList =
                         await app.api.listContacts(widget.me.userId);
                     final contact = contactList.firstWhere(
@@ -99,15 +102,16 @@ class _VerifyContactScreenState extends State<VerifyContactScreen> {
                       status = "Verified ✓ via QR";
                     });
                   } else {
-                    setState(() => status =
-                        "QR mismatch. Make sure you scanned the right contact.");
+                    setState(() {
+                      status =
+                          "QR mismatch. Make sure you scanned the right contact.";
+                    });
                   }
                 },
               ),
 
             const SizedBox(height: 12),
 
-            // --- SAS (6-digit) Verification ---
             if (!verified)
               FilledButton.icon(
                 icon: const Icon(Icons.password),
@@ -121,14 +125,17 @@ class _VerifyContactScreenState extends State<VerifyContactScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            "Your SAS: $localSas",
+                            "Your SAS: $sas",
                             style: const TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           const SizedBox(height: 8),
                           const Text(
-                              "Ask your peer to read their SAS aloud and compare. "
-                              "They should match exactly."),
+                            "Ask your peer to read their SAS aloud and compare. "
+                            "They should match exactly.",
+                          ),
                           const SizedBox(height: 12),
                           TextField(
                             decoration: const InputDecoration(
@@ -138,9 +145,9 @@ class _VerifyContactScreenState extends State<VerifyContactScreen> {
                             keyboardType: TextInputType.number,
                             maxLength: 6,
                             onSubmitted: (entered) async {
-                              if (entered == localSas) {
-                                final contactList = await app.api
-                                    .listContacts(widget.me.userId);
+                              if (entered == sas) {
+                                final contactList =
+                                    await app.api.listContacts(widget.me.userId);
                                 final contact = contactList.firstWhere(
                                   (c) => c.phone == widget.peer.phone,
                                   orElse: () =>
@@ -164,8 +171,10 @@ class _VerifyContactScreenState extends State<VerifyContactScreen> {
                               } else {
                                 if (mounted) {
                                   Navigator.pop(context);
-                                  setState(() => status =
-                                      "SAS mismatch. Try again or use QR scan.");
+                                  setState(() {
+                                    status =
+                                        "SAS mismatch. Try again or use QR scan.";
+                                  });
                                 }
                               }
                             },
@@ -174,8 +183,9 @@ class _VerifyContactScreenState extends State<VerifyContactScreen> {
                       ),
                       actions: [
                         TextButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: const Text("Cancel")),
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text("Cancel"),
+                        ),
                       ],
                     ),
                   );
@@ -184,7 +194,6 @@ class _VerifyContactScreenState extends State<VerifyContactScreen> {
 
             const Spacer(),
 
-            // --- Close / Done ---
             Row(
               children: [
                 Expanded(
@@ -196,8 +205,7 @@ class _VerifyContactScreenState extends State<VerifyContactScreen> {
                 const SizedBox(width: 12),
                 Expanded(
                   child: FilledButton(
-                    onPressed:
-                        verified ? () => Navigator.pop(context, true) : null,
+                    onPressed: verified ? () => Navigator.pop(context, true) : null,
                     child: const Text("Done"),
                   ),
                 ),
@@ -210,7 +218,6 @@ class _VerifyContactScreenState extends State<VerifyContactScreen> {
   }
 }
 
-// QR scanning sub-page
 class _ScanPage extends StatefulWidget {
   const _ScanPage({super.key});
   @override
@@ -232,8 +239,12 @@ class _ScanPageState extends State<_ScanPage> {
           if (barcodes.isNotEmpty) {
             final raw = barcodes.first.rawValue ?? "";
             try {
-              final parsed = _parseMap(raw);
-              Navigator.pop(context, parsed);
+              final parsed = jsonDecode(raw);
+              if (parsed is Map<String, dynamic>) {
+                Navigator.pop(context, parsed);
+              } else {
+                Navigator.pop(context, null);
+              }
             } catch (_) {
               Navigator.pop(context, null);
             }
@@ -241,21 +252,5 @@ class _ScanPageState extends State<_ScanPage> {
         },
       ),
     );
-  }
-
-  Map<String, String> _parseMap(String s) {
-    if (!s.startsWith("{") || !s.endsWith("}")) return {};
-    final inner = s.substring(1, s.length - 1);
-    final parts = inner.split(", ");
-    final map = <String, String>{};
-    for (final p in parts) {
-      final i = p.indexOf(": ");
-      if (i > 0) {
-        final key = p.substring(0, i);
-        final val = p.substring(i + 2);
-        map[key] = val;
-      }
-    }
-    return map;
   }
 }

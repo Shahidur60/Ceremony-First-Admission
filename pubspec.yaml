@@ -9,12 +9,17 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
   cupertino_icons: ^1.0.6
   http: ^1.2.2
   provider: ^6.1.2
   uuid: ^4.4.2
   qr_flutter: ^4.1.0
   mobile_scanner: ^5.2.3
+
+  # NEW
+  flutter_contacts: ^1.1.9+2
+  crypto: ^3.0.6
 
 flutter:
   uses-material-design: true

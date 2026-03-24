@@ -28,10 +28,10 @@ class AppState extends ChangeNotifier {
 
 /// --- MAIN ENTRY POINT ---
 void main() {
-  // ⚙️ Emulator = 10.0.2.2 | Real Device = <Your-PC-IP>
+  // Emulator = 10.0.2.2 | Real Device = <Your-PC-IP>
   const serverBase = String.fromEnvironment(
     'SERVER_BASE',
-    defaultValue: 'http://10.247.86.73:4000',
+    defaultValue: 'http://10.244.48.55:4000',
   );
 
   runApp(
@@ -62,7 +62,6 @@ class CeremonyApp extends StatelessWidget {
         '/': (_) => const LoginScreen(),
         '/home': (_) => const HomeScreen(),
       },
-      // If user already logged in, go directly to Home
       initialRoute: app.me == null ? '/' : '/home',
     );
   }

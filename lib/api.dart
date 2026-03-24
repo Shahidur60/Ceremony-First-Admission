@@ -48,13 +48,15 @@ class Api {
   }
 
   Future<List<ContactEntry>> listVerifiedOnly(String ownerId) async {
-    final res = await http.get(Uri.parse('$base/api/contacts/$ownerId/verified'));
+    final res =
+        await http.get(Uri.parse('$base/api/contacts/$ownerId/verified'));
     if (res.statusCode != 200) throw Exception('listVerifiedOnly failed');
     final L = (jsonDecode(res.body) as List).cast<Map<String, dynamic>>();
     return L.map((e) => ContactEntry.fromJson(e)).toList();
   }
 
-  Future<ContactEntry> addContact(String ownerId, String name, String phone) async {
+  Future<ContactEntry> addContact(
+      String ownerId, String name, String phone) async {
     final res = await http.post(
       Uri.parse('$base/api/contacts/$ownerId/add'),
       headers: {'Content-Type': 'application/json'},
@@ -103,6 +105,7 @@ class Api {
     required String creatorUserId,
     List<String>? admins,
     int endorsementsNeeded = 1,
+    List<String>? endorsers,
   }) async {
     final res = await http.post(
       Uri.parse('$base/api/groups'),
@@ -112,6 +115,7 @@ class Api {
         'creatorUserId': creatorUserId,
         'admins': admins ?? [creatorUserId],
         'endorsementsNeeded': endorsementsNeeded,
+        if (endorsers != null) 'endorsers': endorsers,
       }),
     );
     if (res.statusCode != 200) {
@@ -120,7 +124,8 @@ class Api {
     return GroupModel.fromJson(jsonDecode(res.body));
   }
 
-  Future<GroupModel> inviteToGroup(String groupId, String inviterUserId, String joinerUserId) async {
+  Future<GroupModel> inviteToGroup(
+      String groupId, String inviterUserId, String joinerUserId) async {
     final res = await http.post(
       Uri.parse('$base/api/groups/$groupId/invite'),
       headers: {'Content-Type': 'application/json'},
@@ -129,11 +134,14 @@ class Api {
         'joinerUserId': joinerUserId,
       }),
     );
-    if (res.statusCode != 200) throw Exception('inviteToGroup failed: ${res.body}');
+    if (res.statusCode != 200) {
+      throw Exception('inviteToGroup failed: ${res.body}');
+    }
     return GroupModel.fromJson(jsonDecode(res.body));
   }
 
-  Future<GroupModel> endorse(String groupId, String endorserUserId, String joiningUserId) async {
+  Future<GroupModel> endorse(
+      String groupId, String endorserUserId, String joiningUserId) async {
     final res = await http.post(
       Uri.parse('$base/api/groups/$groupId/endorse'),
       headers: {'Content-Type': 'application/json'},
@@ -142,24 +150,53 @@ class Api {
         'joiningUserId': joiningUserId,
       }),
     );
-    if (res.statusCode != 200) throw Exception('endorse failed: ${res.statusCode} ${res.body}');
+    if (res.statusCode != 200) {
+      throw Exception('endorse failed: ${res.statusCode} ${res.body}');
+    }
+    return GroupModel.fromJson(jsonDecode(res.body));
+  }
+
+  /// NEW: update group admission policy (t and endorsers)
+  Future<GroupModel> updateGroupPolicy({
+    required String groupId,
+    required String callerUserId,
+    required int endorsementsNeeded,
+    required List<String> endorsers,
+  }) async {
+    final res = await http.post(
+      Uri.parse('$base/api/groups/$groupId/policy'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'callerUserId': callerUserId,
+        'endorsementsNeeded': endorsementsNeeded,
+        'endorsers': endorsers,
+      }),
+    );
+    if (res.statusCode != 200) {
+      throw Exception('updateGroupPolicy failed: ${res.statusCode} ${res.body}');
+    }
     return GroupModel.fromJson(jsonDecode(res.body));
   }
 
   // -------- MESSAGES --------
-  Future<List<ChatMessage>> listMessages(String groupId, String userId) async {
-    final res = await http.get(Uri.parse('$base/api/groups/$groupId/messages?userId=$userId'));
+  Future<List<ChatMessage>> listMessages(
+      String groupId, String userId) async {
+    final res = await http
+        .get(Uri.parse('$base/api/groups/$groupId/messages?userId=$userId'));
     if (res.statusCode != 200) throw Exception('listMessages failed');
     final L = (jsonDecode(res.body) as List).cast<Map<String, dynamic>>();
     return L.map((e) => ChatMessage.fromJson(e)).toList();
   }
 
-  Future<void> sendMessage(String groupId, String senderUserId, String text) async {
+  Future<void> sendMessage(
+      String groupId, String senderUserId, String text) async {
     final res = await http.post(
       Uri.parse('$base/api/groups/$groupId/messages'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'senderUserId': senderUserId, 'text': text}),
     );
-    if (res.statusCode != 200) throw Exception('sendMessage failed: ${res.body}');
+    if (res.statusCode != 200) {
+      throw Exception('sendMessage failed: ${res.body}');
+    }
   }
 }

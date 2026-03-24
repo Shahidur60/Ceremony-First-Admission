@@ -114,10 +114,10 @@ class Endorsement {
       );
 
   Map<String, dynamic> toJson() => {
-    'endorser': endorser,
-    'endorsed': endorsed,
-    'timestamp': timestamp,
-  };
+        'endorser': endorser,
+        'endorsed': endorsed,
+        'timestamp': timestamp,
+      };
 }
 
 class GroupModel {
@@ -129,6 +129,9 @@ class GroupModel {
   final List<Endorsement> endorsements;
   final String? createdAt;
 
+  // NEW: who is allowed to endorse (userIds)
+  final List<String> endorsers;
+
   GroupModel({
     required this.groupId,
     required this.name,
@@ -137,6 +140,7 @@ class GroupModel {
     required this.endorsementsNeeded,
     required this.endorsements,
     this.createdAt,
+    required this.endorsers,
   });
 
   int get memberCount => members.length;
@@ -153,6 +157,7 @@ class GroupModel {
             .map((e) => Endorsement.fromJson(Map<String, dynamic>.from(e)))
             .toList(),
         createdAt: j['createdAt'] as String?,
+        endorsers: ((j['endorsers'] ?? []) as List).map((e) => e.toString()).toList(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -163,6 +168,7 @@ class GroupModel {
         'endorsementsNeeded': endorsementsNeeded,
         'endorsements': endorsements.map((e) => e.toJson()).toList(),
         'createdAt': createdAt,
+        'endorsers': endorsers,
       };
 }
 

@@ -20,24 +20,50 @@ class _GroupCreateScreenState extends State<GroupCreateScreen> {
       appBar: AppBar(title: const Text("Create Group")),
       body: Padding(
         padding: const EdgeInsets.all(16),
-        child: Column(children: [
-          TextField(controller: name, decoration: const InputDecoration(labelText: "Group name")),
-          TextField(controller: t, decoration: const InputDecoration(labelText: "Endorsements needed (t)"), keyboardType: TextInputType.number),
-          const SizedBox(height: 12),
-          FilledButton(
-            onPressed: () async {
-              final g = await app.api.createGroup(
-                name: name.text.trim(),
-                creatorUserId: app.me!.userId,
-                admins: [app.me!.userId],
-                endorsementsNeeded: int.tryParse(t.text.trim()) ?? 1,
-              );
-              if (!mounted) return;
-              Navigator.pop(context, g);
-            },
-            child: const Text("Create"),
-          )
-        ]),
+        child: Column(
+          children: [
+            TextField(
+              controller: name,
+              decoration: const InputDecoration(labelText: "Group name"),
+            ),
+            TextField(
+              controller: t,
+              decoration: const InputDecoration(
+                labelText: "Endorsements needed (t)",
+              ),
+              keyboardType: TextInputType.number,
+            ),
+            const SizedBox(height: 12),
+            FilledButton(
+              onPressed: () async {
+                final tVal = int.tryParse(t.text.trim());
+                if (tVal == null || tVal <= 0) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content:
+                          Text("Please enter a valid threshold (t \u2265 1)."),
+                    ),
+                  );
+                  return;
+                }
+
+                final creatorId = app.me!.userId;
+
+                final g = await app.api.createGroup(
+                  name: name.text.trim(),
+                  creatorUserId: creatorId,
+                  admins: [creatorId],
+                  endorsementsNeeded: tVal,
+                  // start with creator as endorser; admins can expand later
+                  endorsers: [creatorId],
+                );
+                if (!mounted) return;
+                Navigator.pop(context, g);
+              },
+              child: const Text("Create"),
+            )
+          ],
+        ),
       ),
     );
   }
